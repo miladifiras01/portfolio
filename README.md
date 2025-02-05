@@ -1,38 +1,35 @@
-# sv
+# Portfolio - Firas Miladi
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This is a personal portfolio project showcasing the work and projects of Firas Miladi. The portfolio is built using SvelteKit and Tailwind CSS, providing a modern and responsive design.
 
-## Creating a project
+## Description
 
-If you're seeing this, you've probably already done this step. Congrats!
+This portfolio website is designed to showcase my skills, projects, and experience as a software engineer. It includes detailed descriptions of various projects I have worked on, along with images and links to the projects.
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
-```
+- **Frontend**: SvelteKit, Tailwind CSS
+- **Backend**: (Future Improvement) FastAPI
+- **Database**: (Future Improvement) PostgreSQL
+- **Deployment**: Vercel
 
-## Developing
+## Features
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- Responsive design
+- Dark mode support
+- Project details with images and descriptions
+- Navigation menu with smooth transitions
 
-```bash
-npm run dev
+## Future Improvements
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+1. **Backend Integration**:
+   - Implement a backend using FastAPI to manage projects dynamically.
+   - Use MongoDB to store project data.
 
-## Building
+2. **Backoffice**:
+   - Develop a backoffice interface to add, update, and delete projects.
+   - Implement authentication and authorization for the backoffice.
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+3. **Additional Features**:
+   - Add a contact form to allow visitors to get in touch.
+   - Implement a blog section to share articles and insights.
