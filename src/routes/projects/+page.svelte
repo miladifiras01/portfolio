@@ -48,8 +48,8 @@
         "Reduced client data processing time from hours to seconds. Automated over 5,000 emails, eliminating manual email sending.",
       images: [
         "/images/crm-homepage.png",
-        // "/images/crm-feature-1.png",
-        // "/images/crm-feature-2.png",
+        "/images/orders-page.png",
+        "/images/clients-page.png",
       ],
       link: "/projects/crm",
     },
@@ -74,7 +74,7 @@
         "Optimized mass emailing for event certificates, ensuring seamless delivery to participants.",
       images: [
         "/images/eventizer-homepage.png",
-        // "/images/eventizer-feature-1.png",
+        "/images/participants-list.png",
         // "/images/eventizer-feature-2.png",
       ],
       link: "/projects/eventizer",
@@ -96,7 +96,7 @@
         "Ensured secure user authentication and improved usability across different screen sizes.",
       images: [
         "/images/goodle-homepage.png",
-        // "/images/goodle-feature-1.png",
+        "/images/mission-page.png",
         // "/images/goodle-feature-2.png",
       ],
       link: "/projects/goodle",
