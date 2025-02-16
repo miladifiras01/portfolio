@@ -4,6 +4,9 @@
   import SectionContainer from "./SectionContainer.svelte";
   import "@fontsource/space-grotesk/latin.css";
   import Footer from "./footer.svelte";
+  import client from "$lib/client";
+  import { setContextClient } from "@urql/svelte";
+  setContextClient(client);
   let { children } = $props();
 </script>
 

@@ -1,113 +1,50 @@
 <script lang="ts">
   import ProjectModal from "./projectModal.svelte";
+  import { getContextClient, queryStore, gql } from "@urql/svelte";
+  import type { Project } from "./types";
+
+  const getProjectsQuery = gql`
+    {
+      getProjects {
+        id
+        name
+        description
+        githubUrl
+        technologies {
+          name
+        }
+        shortDescription
+        images {
+          imageUrl
+        }
+      }
+    }
+  `;
+
+  const projectsQueryStore = queryStore({
+    client: getContextClient(),
+    query: getProjectsQuery,
+  });
+
   let open = false;
-  type Project = {
-    name: String;
-    description: string;
-    images: string[];
-    technologies: string[];
-    largeDescription: string;
-    role: string;
-    link: string;
-  };
+  let selectedProject: Project | null = null;
   function close() {
     open = false;
     selectedProject = null;
   }
+
   function openModal(project: Project) {
     selectedProject = project;
     open = true;
   }
-  const projects = [
-    {
-      name: "CRM - Big Brands Group",
-      description:
-        "A customer relationship management (CRM) platform designed to streamline operations for Big Brands Group.",
-      largeDescription: `<div class="mt-6 space-y-4 lg:mt-10 text-base text-zinc-600 dark:text-zinc-400"> <p>
-    Big Brands Group (BBG) is an importer, exporter, distributor, and manufacturer specialized in consumer goods.
-  </p>
-  <p>
-    I contributed to the development of a Customer Relationship Management (CRM) platform for BBG's sales team using Laravel and Angular. The platform includes several key features such as client management, order management, and catalog and product management.
-  </p>
-  <p>
-    My role evolved throughout the project, initially participating in its initiation and later taking full responsibility for its completion, working independently with the Product Owner.
-  </p>
-  <p>
-    Notable achievements include creating a 3D visualization feature for cargo shipments in containers using the Searates API, implementing a bulk client import feature from Excel files, and developing APIs for the mobile application, with a particular focus on access management and data security.
-  </p> </div>`,
-      role: "Developed interactive dashboards using ApexCharts, automated data import/export with Laravel, and integrated transactional emails via Brevo API.",
-      technologies: [
-        "Angular",
-        "Laravel",
-        "ApexCharts",
-        "Maatwebsite Excel",
-        "Brevo API",
-        "GitLab",
-      ],
-      impact:
-        "Reduced client data processing time from hours to seconds. Automated over 5,000 emails, eliminating manual email sending.",
-      images: [
-        "/images/crm-homepage.png",
-        "/images/orders-page.png",
-        "/images/clients-page.png",
-      ],
-      link: "/projects/crm",
-    },
-    {
-      name: "Eventizer",
-      description:
-        "An event management platform that facilitates mass emailing, certificate distribution, and improved client communication.",
-      largeDescription: `<div class="mt-6 space-y-4 lg:mt-10 text-base text-zinc-600 dark:text-zinc-400"> <p>
-    <p>Ventizer is a platform dedicated to organizing large-scale events and conferences, developed using Laravel and Angular.</p>
-  <p>My role involved updating certain features, such as email functionality and displaying participant data, as well as fixing existing bugs.</p>
-  <p>Skills and Technologies Learned:</p>
-  <p>Laravel, Angular, API Integration, HTML, CSS, Typescript, Gitlab.</p> </div>`,
-      role: "Enhanced email automation using Laravel and Brevo, improved system stability through debugging, and migrated email communication from Brevo to Mailchimp.",
-      technologies: [
-        "Laravel",
-        "Mailchimp API",
-        "Brevo API",
-        "Angular",
-        "GitLab",
-      ],
-      impact:
-        "Optimized mass emailing for event certificates, ensuring seamless delivery to participants.",
-      images: [
-        "/images/eventizer-homepage.png",
-        "/images/participants-list.png",
-        // "/images/eventizer-feature-2.png",
-      ],
-      link: "/projects/eventizer",
-    },
-    {
-      name: "Goodle",
-      description:
-        "A corporate social responsibility (CSR) platform aimed at engaging businesses in impactful initiatives.",
-      largeDescription: `<div class="mt-6 space-y-4 lg:mt-10 text-base text-zinc-600 dark:text-zinc-400"> <p>
-     <p>Goodle is a Software as a Service (SaaS) platform designed to bridge the gap between employees' professional skills and the needs of NGOs.</p>
-  <p>By combining these two elements, Goodle facilitates volunteer work in a meaningful way, strengthening the social impact of businesses and helping NGOs achieve their goals more effectively.</p>
-  <p>Developed with Dotnet and React JS.</p>
-  <p>In the context of this year-end project carried out with two other colleagues, my main tasks included:</p>
-  <p>Developing the search filter, designing the sign-up and login interfaces, and modifying the user interface (UI) to make the platform responsive, ensuring optimal use across all types of devices (desktops, tablets, mobiles).</p>
- </div>`,
-      role: "Led authentication system development, implemented CRUD operations, and improved responsiveness across various devices.",
-      technologies: ["Next.js", "React", "TypeScript", ".NET (C#)", "GitHub"],
-      impact:
-        "Ensured secure user authentication and improved usability across different screen sizes.",
-      images: [
-        "/images/goodle-homepage.png",
-        "/images/mission-page.png",
-        // "/images/goodle-feature-2.png",
-      ],
-      link: "/projects/goodle",
-    },
-  ];
-  let selectedProject: Project | null = null;
 </script>
 
 <svelte:head>
   <title>Projects - Firas Miladi</title>
-  <meta name="description" content="About this app" />
+  <meta
+    name="description"
+    content="Discover web projects by Firas Miladi, built with Svelte, Angular, Laravel, FastAPI, and more. Explore innovative and scalable web applications."
+  />
 </svelte:head>
 <main>
   <div class="sm:px-8 mt-16 sm:mt-32">
@@ -137,37 +74,64 @@
               </h2>
               <ul
                 class="mt-12 grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
-              >
-                {#each projects as project}
-                  <li class="group relative flex flex-col items-start">
-                    <a
-                      on:click={() => openModal(project)}
-                      class="cursor-pointer"
+                >
+                {#if $projectsQueryStore.error}
+                  <div class="text-red-500">
+                  Error loading projects: {$projectsQueryStore.error.message}
+                  </div>
+                {:else if $projectsQueryStore.data}
+                  {#each $projectsQueryStore.data.getProjects as project}
+                    <li class="group relative flex flex-col items-start">
+                      <button
+                        type="button"
+                        on:click={() => openModal(project)}
+                        class="cursor-pointer"
+                      >
+                        <div
+                          class="relative z-10 flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0"
+                        >
+                          <img
+                            alt={project.name}
+                            src={project.images[0]?.imageUrl}
+                            class="h-full w-full"
+                            loading="lazy"
+                            style="color: transparent;"
+                          />
+                        </div>
+                        <h3
+                          class="mt-6 text-base font-semibold text-zinc-800 dark:text-zinc-100"
+                        >
+                          <span class="relative z-10">{project.name}</span>
+                        </h3>
+                        <p
+                          class="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400"
+                        >
+                          {project.shortDescription}
+                        </p>
+                      </button>
+                    </li>
+                  {/each}
+                {:else}
+                  <div role="status">
+                    <svg
+                      aria-hidden="true"
+                      class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                      viewBox="0 0 100 101"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <div
-                        class="relative z-10 flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0"
-                      >
-                        <img
-                          alt={project.name}
-                          src={project.images[0]}
-                          class="h-full w-full"
-                          loading="lazy"
-                          style="color: transparent;"
-                        />
-                      </div>
-                      <h3
-                        class="mt-6 text-base font-semibold text-zinc-800 dark:text-zinc-100"
-                      >
-                        <span class="relative z-10">{project.name}</span>
-                      </h3>
-                      <p
-                        class="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400"
-                      >
-                        {project.description}
-                      </p>
-                    </a>
-                  </li>
-                {/each}
+                      <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                      />
+                    </svg>
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                {/if}
               </ul>
             </div>
           </div>

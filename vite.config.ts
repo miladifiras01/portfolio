@@ -9,5 +9,8 @@ export default defineConfig({
 	],
 	css: {
 		postcss: './postcss.config.cjs',
-	  },
+	},
+	optimizeDeps: {
+		exclude: ['@urql/svelte']
+	},
 });
