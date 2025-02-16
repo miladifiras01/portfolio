@@ -39,7 +39,7 @@
   });
 </script>
 
-<header id="header" class={`${headerClass} {$scrollDirection === 'down' ? '-translate-y-full' : ''}`}>
+<header id="header" class={`${headerClass} ${$scrollDirection === 'down' ? '-translate-y-full' : ''}`}>
 	<a href="/" aria-label={siteMetadata.headerTitle}>
 	  <div class="flex items-center justify-between">
 		<div class="mr-3">
@@ -77,7 +77,7 @@
 	  </button>
 	</div>
 	{#if $navShow}
-	  <div class="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100" on:click={toggleNav}></div>
+	  <button type="button" class="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100" on:click={toggleNav} aria-label="Close navigation menu"></button>
 	  <div class="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 dark:bg-zinc-900 dark:ring-zinc-800 opacity-100 scale-100">
 		<div class="flex flex-row-reverse items-center justify-between">
 		  <button aria-label="Close menu" class="-m-1 p-1" type="button" on:click={toggleNav}>
@@ -101,91 +101,4 @@
   </header>
 
 <style>
-  /* header {
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.corner {
-		width: 3em;
-		height: 3em;
-	}
-
-	.corner a {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-	}
-
-	.corner img {
-		width: 2em;
-		height: 2em;
-		object-fit: contain;
-	}
-
-	nav {
-		display: flex;
-		justify-content: center;
-		--background: rgba(255, 255, 255, 0.7);
-	}
-
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
-	}
-
-	path {
-		fill: var(--background);
-	}
-
-	ul {
-		position: relative;
-		padding: 0;
-		margin: 0;
-		height: 3em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		list-style: none;
-		background: var(--background);
-		background-size: contain;
-	}
-
-	li {
-		position: relative;
-		height: 100%;
-	}
-
-	li[aria-current='page']::before {
-		--size: 6px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: 0;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--color-theme-1);
-	}
-
-	nav a {
-		display: flex;
-		height: 100%;
-		align-items: center;
-		padding: 0 0.5rem;
-		color: var(--color-text);
-		font-weight: 700;
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		text-decoration: none;
-		transition: color 0.2s linear;
-	}
-
-	a:hover {
-		color: var(--color-theme-1);
-	} */
 </style>

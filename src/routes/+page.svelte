@@ -8,8 +8,11 @@
 </script>
 
 <svelte:head>
-  <title>Home - Firas Miladi</title>
-  <meta name="description" content="Svelte demo app" />
+  <title>Firas Miladi - Full-Stack Developer Portfolio</title>
+  <meta
+    name="description"
+    content="Discover the portfolio of Firas Miladi, a full-stack developer specializing in Svelte, Angular, Laravel, and FastAPI. Explore projects, skills, and contact information."
+  />
 </svelte:head>
 
 <main>

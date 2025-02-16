@@ -4,7 +4,10 @@
 
 <svelte:head>
   <title>About - Firas Miladi</title>
-  <meta name="description" content="About this app" />
+  <meta
+    name="description"
+    content="Learn about Firas Miladi, a full-stack developer specializing in Svelte, Angular, Laravel, and FastAPI. Passionate about building scalable web applications."
+  />
 </svelte:head>
 
 <main>
