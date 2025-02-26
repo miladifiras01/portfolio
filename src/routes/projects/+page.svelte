@@ -2,6 +2,8 @@
   import ProjectModal from "./projectModal.svelte";
   import { getContextClient, queryStore, gql } from "@urql/svelte";
   import type { Project } from "./types";
+  import {onMount, onDestroy} from "svelte"
+  import type { Unsubscriber } from "svelte/store";
 
   const getProjectsQuery = gql`
     {
@@ -32,11 +34,20 @@
     open = false;
     selectedProject = null;
   }
-
+  let unsubscribe: Unsubscriber;
   function openModal(project: Project) {
     selectedProject = project;
     open = true;
   }
+  onMount(() => {
+    unsubscribe = projectsQueryStore.subscribe((value) => {
+      console.log(value.data)
+    });
+  })
+  onDestroy(() => {
+    console.log('test')
+    unsubscribe()
+  });
 </script>
 
 <svelte:head>
