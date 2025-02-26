@@ -83,7 +83,7 @@
           </div>
 
           <!-- Description -->
-          <div class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+          <div class="mt-6 text-base text-zinc-600 dark:text-zinc-400 prose dark:prose-invert">
             {@html project.description}
           </div>
 
