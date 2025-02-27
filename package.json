@@ -9,7 +9,8 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"postbuild": "npx svelte-sitemap --domain https://firasmiladi.me"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^5.0.0",
@@ -31,6 +32,7 @@
 	"dependencies": {
 		"@fontsource/space-grotesk": "^5.1.1",
 		"@tailwindcss/forms": "^0.5.10",
-		"@tailwindcss/typography": "^0.5.16"
+		"@tailwindcss/typography": "^0.5.16",
+		"svelte-sitemap": "^2.7.0"
 	}
 }
